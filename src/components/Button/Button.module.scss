@@ -1,0 +1,17 @@
+.wrapper{
+    font-weight: 700;
+    min-width: 100px;
+    font-size: 1.6rem;
+    padding: 9px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+
+}
+.primary{
+    background-color: var(--primary);
+    color: var(--white);
+
+    &:hover{
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), rgb(254, 44, 85);
+    }
+}
