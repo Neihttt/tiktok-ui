@@ -64,9 +64,8 @@ function Header() {
           </div>
         </Tippy>
         <div className={cx("actions")}>
-          <Button primary onClick={() => alert("Click login")}>
-            Log in
-          </Button>
+          <Button text>Upload</Button>
+          <Button primary >Log in</Button>
         </div>
       </div>
     </header>
