@@ -7,7 +7,8 @@ import styles from "./Menu.module.scss";
 import { useState } from "react";
 
 const cx = classNames.bind(styles);
-function Menu({ children, items = [] }) {
+function Menu({ children, items = [], onChange }) {
+
   const [history, setHistory] = useState([{ data: items }]);
   const current = history[history.length - 1];
 
@@ -23,6 +24,8 @@ function Menu({ children, items = [] }) {
           onClick={() => {
             if (isParent) {
               setHistory((prev) => [...prev, item.children]);
+            } else {
+              onChange(item)
             }
           }}
         />
@@ -32,7 +35,6 @@ function Menu({ children, items = [] }) {
 
   return (
     <Tippy
-      visible
       interactive
       delay={[0, 700]}
       placement="bottom-end"
@@ -51,6 +53,7 @@ function Menu({ children, items = [] }) {
           </PopperWrapper>
         </div>
       )}
+      onHide={() => setHistory(prev => prev.slice(0, 1))}
     >
       {children}
     </Tippy>

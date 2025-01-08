@@ -14,9 +14,11 @@ import {
   faEarthAsia,
   faCircleQuestion,
   faKeyboard,
+  faCloudUpload,
 } from "@fortawesome/free-solid-svg-icons";
-
-import Tippy from "@tippyjs/react/headless";
+import Tippy from "@tippyjs/react";
+import HaedlessTippy from "@tippyjs/react/headless";
+import 'tippy.js/dist/tippy.css';
 import AccountItem from "../AccountItem";
 import Menu from "~/components/Popper/Menu";
 
@@ -27,19 +29,18 @@ const MENU_ITEMS = [
     icon: <FontAwesomeIcon icon={faEarthAsia} />,
     title: "English",
     children: {
-      title: 'Language',
+      title: "Language",
       data: [
         {
-          code: 'en',
-          title: 'English'
+          code: "en",
+          title: "English",
         },
         {
-          code: 'vi',
-          title: 'Tiếng Việt'
-        }
-      ]
-
-    }
+          code: "vi",
+          title: "Tiếng Việt",
+        },
+      ],
+    },
   },
   {
     icon: <FontAwesomeIcon icon={faCircleQuestion} />,
@@ -58,7 +59,17 @@ function Header() {
     setTimeout(() => {
       setSearchResult([]);
     }, 0);
-  });
+  }, []);
+
+  const handleMenuChange = (menuItem) => {
+    switch (menuItem.type) {
+      case "language":
+        break;
+      default:
+    }
+  };
+
+  const currentUser = true;
 
   return (
     <header className={cx("wrapper")}>
@@ -67,7 +78,7 @@ function Header() {
           <img scr={images.logo} alt="TikTok" />
         </div>
 
-        <Tippy
+        <HaedlessTippy
           interactive
           visible={searchResult.length > 0}
           render={(attrs) => (
@@ -97,15 +108,38 @@ function Header() {
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
           </div>
-        </Tippy>
-        <div className={cx("actions")}>
-          <Button text>Upload</Button>
-          <Button primary>Log in</Button>
+        </HaedlessTippy>
 
-          <Menu items={MENU_ITEMS}>
-            <button className={cx("more-btn")}>
-              <FontAwesomeIcon icon={faEllipsisVertical} />
-            </button>
+        <div className={cx("actions")}>
+          {currentUser ? (
+            <>
+              <Tippy content="Upload Video" placement="bottom">
+                <button className={cx('action-btn')}>
+                  <FontAwesomeIcon icon={faCloudUpload} />
+                </button>
+              </Tippy>
+
+              
+            </>
+          ) : (
+            <>
+              <Button text>Upload</Button>
+              <Button primary>Log in</Button>
+            </>
+          )}
+
+          <Menu items={MENU_ITEMS} onChange={handleMenuChange}>
+            {currentUser ? (
+              <img
+                className={cx("user-avatar")}
+                alt="Nguyen Van A"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/DoMixi1989.jpg/250px-DoMixi1989.jpg"
+              />
+            ) : (
+              <button className={cx("more-btn")}>
+                <FontAwesomeIcon icon={faEllipsisVertical} />
+              </button>
+            )}
           </Menu>
         </div>
       </div>
