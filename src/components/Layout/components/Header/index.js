@@ -14,13 +14,18 @@ import {
   faEarthAsia,
   faCircleQuestion,
   faKeyboard,
-  faCloudUpload,
+  faUser,
+  faCoins,
+  faGear,
+  faSignOut,
 } from "@fortawesome/free-solid-svg-icons";
 import Tippy from "@tippyjs/react";
 import HaedlessTippy from "@tippyjs/react/headless";
-import 'tippy.js/dist/tippy.css';
+import "tippy.js/dist/tippy.css";
 import AccountItem from "../AccountItem";
 import Menu from "~/components/Popper/Menu";
+import { UploadIcon } from "~/components/Icons/Icons";
+import Image from "~/components/Images";
 
 const cx = classNames.bind(styles);
 
@@ -55,6 +60,9 @@ const MENU_ITEMS = [
 
 function Header() {
   const [searchResult, setSearchResult] = useState([]);
+
+  const currentUser = true;
+
   useEffect(() => {
     setTimeout(() => {
       setSearchResult([]);
@@ -69,7 +77,30 @@ function Header() {
     }
   };
 
-  const currentUser = true;
+  const userMenu = [
+    {
+      icon: <FontAwesomeIcon icon={faUser} />,
+      title: "View profile",
+      to: "/@user",
+    },
+    {
+      icon: <FontAwesomeIcon icon={faCoins} />,
+      title: "Get coins",
+      to: "/coins",
+    },
+    {
+      icon: <FontAwesomeIcon icon={faGear} />,
+      title: "Settings",
+      to: "/settings",
+    },
+    ...MENU_ITEMS,
+    {
+      icon: <FontAwesomeIcon icon={faSignOut} />,
+      title: "Log out",
+      to: "/logout",
+      separate: true,
+    },
+  ];
 
   return (
     <header className={cx("wrapper")}>
@@ -113,13 +144,11 @@ function Header() {
         <div className={cx("actions")}>
           {currentUser ? (
             <>
-              <Tippy content="Upload Video" placement="bottom">
-                <button className={cx('action-btn')}>
-                  <FontAwesomeIcon icon={faCloudUpload} />
+              <Tippy delay={[0, 200]} content="Upload Video" placement="bottom">
+                <button className={cx("action-btn")}>
+                  <UploadIcon />
                 </button>
               </Tippy>
-
-              
             </>
           ) : (
             <>
@@ -128,12 +157,16 @@ function Header() {
             </>
           )}
 
-          <Menu items={MENU_ITEMS} onChange={handleMenuChange}>
+          <Menu
+            items={currentUser ? userMenu : MENU_ITEMS}
+            onChange={handleMenuChange}
+          >
             {currentUser ? (
-              <img
+              <Image
                 className={cx("user-avatar")}
                 alt="Nguyen Van A"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/DoMixi1989.jpg/250px-DoMixi1989.jpg"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/DoMixi1989.jpg/250px-DoMixi1989.jpgs"
+                fallback="https://pixabay.com/vectors/error-cross-icon-symbol-803716/"
               />
             ) : (
               <button className={cx("more-btn")}>
